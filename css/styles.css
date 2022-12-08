@@ -1,0 +1,138 @@
+@import url("https://fonts.cdnfonts.com/css/montserrat");
+
+body {
+  height: 100%;
+  /* width: 100vw; */
+  font-size: 100%;
+  font-family: "Montserrat", sans-serif;
+  background: #f5eeef;
+}
+
+.java_butik {
+  background-color: #f63743;
+}
+.headline {
+  font-weight: bold;
+  color: #000000;
+}
+
+.list {
+  margin-top: 100px;
+}
+
+img {
+  margin: 0;
+}
+
+footer h1,
+h2,
+h3,
+p,
+h6 {
+  color: #000000;
+}
+
+.button-jumbotron {
+  background-color: transparent;
+}
+
+.bg-pink {
+  background-color: #ff757e;
+}
+
+.lihat-produk {
+  width: 100%;
+}
+
+/* @media only screen and (min-width: 728px) {
+  .jumbotron {
+    visibility: visible;
+  }
+} */
+
+/*!
+ * Start Bootstrap - Busines Frontpage (https://startbootstrap.com/template-overviews/business-frontpage)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-business-frontpage/blob/master/LICENSE)
+ */
+
+/* card */
+.cards {
+  background: #f5eeef;
+}
+.dress-card-img-top {
+  width: 100%;
+  height: 320px;
+  border-radius: 7px 7px 0 0;
+}
+
+.dress-card-body {
+  padding: 1rem;
+  background: #f5eeef;
+  border-radius: 0 0 7px 7px;
+}
+
+h4 .dress-card-title {
+  color: #504f4f;
+  line-height: 1.2rem;
+}
+
+.dress-card-crossed {
+  text-decoration: line-through;
+}
+
+.dress-card-price {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.dress-card-off {
+  color: #e06c9f;
+}
+
+.dress-card-para {
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  margin-bottom: 0rem;
+}
+
+.dress-card {
+  border-radius: 14px;
+}
+
+.dress-card-heart {
+  font-size: 1em;
+  color: #db2763;
+  margin: 4.5px;
+  position: absolute;
+  left: 4px;
+  top: 0px;
+}
+.card-button {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 15px;
+  padding: 9px;
+}
+.card-button a {
+  text-decoration: none;
+}
+
+.card-button-inner {
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.bag-button {
+  background: #ff757e;
+  color: white;
+}
+
+.bag-button :hover {
+  background: white;
+}
+
+.wish-button {
+  border: 1px solid #ff757e;
+  color: #e06c9f;
+}
