@@ -1,103 +1,19 @@
 <?php
 session_start();
 include 'dbconnect.php';
+ 
+		$brgs=mysqli_query($conn,"SELECT *,SUM(detailorder.qty) as total_penjualan FROM `detailorder`,`produk`,`cart` WHERE detailorder.idproduk = produk.idproduk AND detailorder.orderid = cart.orderid AND cart.status LIKE '%Selesai%' GROUP BY namaproduk ORDER BY `total_penjualan` DESC;");
+		$no=1;
+		while($p=mysqli_fetch_array($brgs)){
 
-$idproduk = $_GET['idproduk'];
-
-if(isset($_POST['addprod'])){
-	if(!isset($_SESSION['log']))
-		{	
-			header('location:login.php');
-		} else {
-				$ui = $_SESSION['id'];
-				$cek = mysqli_query($conn,"select * from cart where userid='$ui' and status='Cart'");
-				$liat = mysqli_num_rows($cek);
-				$f = mysqli_fetch_array($cek);
-				$orid = $f['orderid'];
-				
-				//kalo ternyata udeh ada order id nya
-				if($liat>0){
-							
-							//cek barang serupa
-							$cekbrg = mysqli_query($conn,"select * from detailorder where idproduk='$idproduk' and orderid='$orid'");
-							$liatlg = mysqli_num_rows($cekbrg);
-							$brpbanyak = mysqli_fetch_array($cekbrg);
-                            if(isset($brpbanyak['qty'])){
-                                $jmlh = $brpbanyak['qty'];
-                            }
-                            else{
-                                $jmlh = 1;
-                            }
-							
-							
-							//kalo ternyata barangnya ud ada
-							if($liatlg>0){
-								$i=1;
-								$baru = $jmlh + $i;
-								
-								$updateaja = mysqli_query($conn,"update detailorder set qty='$baru' where orderid='$orid' and idproduk='$idproduk'");
-								
-								if($updateaja){
-									echo " <div class='alert alert-success'>
-								Barang sudah pernah dimasukkan ke keranjang, jumlah akan ditambahkan
-							  </div>
-							  <meta http-equiv='refresh' content='1; url= product.php?idproduk=".$idproduk."'/>";
-								} else {
-									echo "<div class='alert alert-warning'>
-								Gagal menambahkan ke keranjang
-							  </div>
-							  <meta http-equiv='refresh' content='1; url= product.php?idproduk=".$idproduk."'/>";
-								}
-								
-							} else {
-							
-							$tambahdata = mysqli_query($conn,"insert into detailorder (orderid,idproduk,qty) values('$orid','$idproduk','1')");
-							if ($tambahdata){
-							echo " <div class='alert alert-success'>
-								Berhasil menambahkan ke keranjang
-							  </div>
-							<meta http-equiv='refresh' content='1; url= product.php?idproduk=".$idproduk."'/>  ";
-							} else { echo "<div class='alert alert-warning'>
-								Gagal menambahkan ke keranjang
-							  </div>
-							 <meta http-equiv='refresh' content='1; url= product.php?idproduk=".$idproduk."'/> ";
-							}
-							};
-				} else {
-					
-					//kalo belom ada order id nya
-						$oi = crypt(rand(22,999),time());
-						
-						$bikincart = mysqli_query($conn,"insert into cart (orderid, userid) values('$oi','$ui')");
-						
-						if($bikincart){
-							$tambahuser = mysqli_query($conn,"insert into detailorder (orderid,idproduk,qty) values('$oi','$idproduk','1')");
-							if ($tambahuser){
-							echo " <div class='alert alert-success'>
-								Berhasil menambahkan ke keranjang
-							  </div>
-							<meta http-equiv='refresh' content='1; url= product.php?idproduk=".$idproduk."'/>  ";
-							} else { echo "<div class='alert alert-warning'>
-								Gagal menambahkan ke keranjang
-							  </div>
-							 <meta http-equiv='refresh' content='1; url= product.php?idproduk=".$idproduk."'/> ";
-							}
-						} else {
-                            var_dump($oi);
-                            var_dump(mysqli_error($conn));
-                            die;
-							echo "gagal bikin cart";
-						}
-				}
-		}
-};
+												
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Sipebu - Produk</title>
+    <title>SIPEBU</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -113,20 +29,24 @@ if(isset($_POST['addprod'])){
     }
     </script>
     <!-- //for-mobile-apps -->
+    <!-- <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" /> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <!-- <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" /> -->
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
-
-    <!-- font-awesome icons -->
+    <link href="css/jumbotron.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/font-awesome.css" rel="stylesheet">
-    <!-- //font-awesome icons -->
     <!-- js -->
     <script src="js/jquery-1.11.1.min.js"></script>
     <!-- //js -->
+    <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
+
+    <!-- <link
+        href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic'
+        rel='stylesheet' type='text/css'>
+    <link
+        href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+        rel='stylesheet' type='text/css'> -->
     <!-- start-smoth-scrolling -->
     <script type="text/javascript" src="js/move-top.js"></script>
     <script type="text/javascript" src="js/easing.js"></script>
@@ -205,60 +125,56 @@ if(isset($_POST['addprod'])){
                     <a class="navbar-brand" href="cart.php">
                         <img src=".\images\cart.png" alt="" width="33" height="20">
                     </a>
-                    <a class="btn btn-primary m-4" href="Logout.php" role="button">Logout</a>
+                    <a class="btn btn-primary m-4" href="logout.php" role="button">Logout</a>
                 </div>
             </div>
         </div>
     </nav>
-    <!-- //navigation -->
 
-
-    <div class="produk mt-4 pt-8">
-        <div class="container py-3">
+    <!-- navigation -->
+    <!-- Jumbotron -->
+    <div class="container jumbotron">
+        <div class="header align-items-center justify-content-center">
             <div class="row">
-                <?php 
-				$p = mysqli_fetch_array(mysqli_query($conn,"Select * from produk where idproduk='$idproduk'"));
-				// echo $p['namaproduk'];
-				?>
-                <div class="col-sm-6 col-lg-4 mb-4 ">
-                    <img id="example" src="<?php echo $p['gambar']?>" alt=" " class="" width="100%" max-height="500px">
-                </div>
-                <div class="col-sm-6 col-lg-4 ">
-                    <h1><?php echo $p['namaproduk'] ?></h1>
-                    <div class="w3agile_description">
-                        <h4>Deskripsi :</h4>
-                        <p><?php echo $p['deskripsi'] ?></p>
-                    </div>
-                    <div class="snipcart-item block">
-                        <div class="snipcart-thumb agileinfo_single_right_snipcart">
-                            <h4 class="m-sing">Rp<?php echo number_format($p['harga']) ?>
+                <!-- Menu Start-->
+                <div class="menu col-6">
+                    <div class="text col-12">
+                        <div class="top_text">
+                            <span>Koleksi Baru </span>
+                        </div>
+                        <div class="center_text">
+                            <span>Java Butik</span>
+                        </div>
+                        <div class="center_text">
+                            <span>Fashion Fest</span>
+                        </div>
+                        <!-- <div class="bottom_text">
+                            <span>Software Dev</span>
+                        </div> -->
 
-                            </h4>
+                        <!--My Info-->
+                        <div class="my_info">
+                            <button class="btn">Belanja Sekarang</button>
                         </div>
-                        <div class="snipcart-details agileinfo_single_right_details">
-                            <form action="#" method="post">
-                                <fieldset>
-                                    <input type="hidden" name="idprod" value="<?php echo $idproduk ?>">
-                                    <input type="submit" name="addprod" value="Add to cart"
-                                        class="btn btn-outline-secondary">
-                                </fieldset>
-                            </form>
-                        </div>
+                        <!--my info end-->
                     </div>
                 </div>
-                <div class="clearfix"> </div>
+                <!--end menu-->
+
+                <div class="photo_frame col-5">
+                    <div class="photo">
+                        <img src="images\javabutik.png" />
+                    </div>
+                </div>
             </div>
+            <!--end row-->
         </div>
     </div>
-
-    <?php
-            $brgs=mysqli_query($conn,"SELECT * from produk where stok > 0 order by idproduk ASC");
-            $no=1;
-            while($p=mysqli_fetch_array($brgs)){                                      
-    ?>
-
-    <div class="container">
-        <h1 align="center">KOLEKSI TOKO LAINNYA</h1>
+    <!-- Jumbotron -->
+    <!-- //top-header and slider -->
+    <!-- top-brands -->
+    <div class="container my-5 py-5">
+        <h1 align="center">REKOMENDASI BEST SELLER TOKO</h1>
         <hr>
         <br>
         <br>
@@ -299,61 +215,71 @@ if(isset($_POST['addprod'])){
 		}
 	    ?>
     </div>
+    </div>
 
-    <!-- <div class="container">
-        <div class="my-4 py-4 " align="center">
-            <h2 class="mx-4 headline">Koleksi Toko</h2>
-        </div>
-        <div class="row">
-            <?php $i = 1; ?>
-            <?php foreach($brgs as $row) : ?>
-            <div
-                class="col-lg-3 col-sm-4 d-flex flex-column align-items-center justify-content-center product-item my-3">
-                <div class="product">
-                    <img src="<?= $row["gambar"]?>" alt="" width="230px" height="270px">
-                </div>
-                <div class="title pt-4 pb-1"><?= $row["namaproduk"]?></div>
-                <div class="price">
-                    <h4 class="">Rp.<?php echo number_format($row['harga']) ?>
 
-                    </h4>
-                </div>
-                <div class="snipcart-details top_brand_home_details">
-                    <fieldset>
-                        <a href="product.php?idproduk=<?php echo $row['idproduk'] ?>"><input type="submit"
-                                class="btn btn-danger" value="Lihat Produk" /></a>
-                    </fieldset>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- //top-brands-->
+
+
+
+
+    <footer class="text-center text-lg-start text-muted bg-pink py-4">
+        <!-- //footer -->
+        <section class="mt-4">
+            <div class="container text-center text-md-start mt-5">
+                <div class="row mt-3">
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <img src="images/logo.png" alt="">
+                        <h6 class="text-uppercase fw-bold mb-4"><i class="fas fa-gem me-3"></i>Java Butik Indonesia</h6>
+                        <p>Terbaik,Tercantik,Terindah</p>
+                        <p>Sahabat fashionis seluruh Indonesia</p>
+                    </div>
+
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Social Media
+                        </h6>
+                        <p>
+                            <a href="https://www.facebook.com/javamoslemfashion.official/"
+                                class="text-reset">Facebook</a>
+                        </p>
+                        <p>
+                            <a href="https://www.instagram.com/javamoslemfashion/?hl=en"
+                                class="text-reset">Instagram</a>
+                        </p>
+                        <p>
+                            <a href="https://www.youtube.com/channel/UC5WGxt5ZxORe8c7w9jUttTw"
+                                class="text-reset">Youtube</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                        <p><i class="fas fa-home me-3"></i> SOGO Pakuwon Mall Surabaya</p>
+                        <p>
+                            <i class="fas fa-envelope me-3"></i>
+                            javamoslemfashion@gmail.com
+                        </p>
+                        <p><i class="fas fa-phone me-3"></i> +62 813-3621-5118</p>
+                        <p><i class="fas fa-print me-3"></i> +62 813-3511-0650</p>
+                    </div>
                 </div>
             </div>
-            <?php $i++; ?>
-            <?php endforeach ?>
-        </div>
-    </div> -->
-
-    <!-- //footer -->
-
+        </section>
+    </footer>
     <!-- //footer -->
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
 
     <!-- top-header and slider -->
     <!-- here stars scrolling icon -->
     <script type="text/javascript">
-    $(document).ready(function() {
-
-        var defaults = {
-            containerID: 'toTop', // fading element id
-            containerHoverID: 'toTopHover', // fading element hover id
-            scrollSpeed: 4000,
-            easingType: 'linear'
-        };
-
-
-        $().UItoTop({
-            easingType: 'easeOutQuart'
-        });
-
-    });
     </script>
     <!-- //here ends scrolling icon -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

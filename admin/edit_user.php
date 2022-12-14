@@ -63,7 +63,7 @@
         $namafilebaru .= '.';
         $namafilebaru .= $ekstensiGambar;
         // copy file ke folder img
-        move_uploaded_file($tmpName, '..\staff/' . $namafilebaru);
+        move_uploaded_file($tmpName, '../staff/' . $namafilebaru);
         return $namafilebaru;
     }
 
@@ -114,7 +114,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Edit Staff - SIPEBU</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="..\images\logo.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/themify-icons.css">

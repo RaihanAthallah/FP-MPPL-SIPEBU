@@ -49,6 +49,8 @@ if(isset($_POST['confirm']))
                 <meta http-equiv='refresh' content='5; url= index.php'/>  ";;
 			  }
               else{
+                //var_dump(mysqli_error($conn));
+                //die;
 				echo "<div class='alert alert-warning'>
                 Gagal Submit, silakan ulangi lagi.
                 </div>
@@ -57,19 +59,25 @@ if(isset($_POST['confirm']))
 			}
             else{
 			  // Jika gambar gagal diupload, Lakukan :
-			  echo "Sorry, there's a problem while uploading the file.";
+			  echo "<div class='alert alert-warning'>
+                Gagal upload foto, silakan ulangi lagi.
+                </div>";
 			  echo "<br><meta http-equiv='refresh' content='5; URL=konfirmasi.php?id=$idorder'> You will be redirected to the form in 5 seconds";
 			}
 		  }
           else{
 			// Jika ukuran file lebih dari 1MB, lakukan :
-			echo "Sorry, the file size is not allowed to more than 1mb";
+			echo "<div class='alert alert-warning'>
+                Size foto tidak boleh lebih dari 1mb, silakan ulangi lagi.
+                </div>";
 			echo "<br><meta http-equiv='refresh' content='5; URL=konfirmasi.php?id=$idorder'> You will be redirected to the form in 5 seconds";
 		  }
 		}
         else{
 		  // Jika tipe file yang diupload bukan JPG / JPEG / PNG, lakukan :
-		  echo "Sorry, the image format should be JPG/PNG.";
+		  echo "<div class='alert alert-warning'>
+                Format harus jpg/jpeg/png.
+                </div>";
 		  echo "<br><meta http-equiv='refresh' content='5; URL=konfirmasi.php?id=$idorder'> You will be redirected to the form in 5 seconds";
 		}
         
@@ -95,6 +103,7 @@ if(isset($_POST['confirm']))
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Java Butik Muslim Fashion" />
+    <link rel="shortcut icon" type="image/png" href=".\images\logo.png">
     <script type="application/x-javascript">
     addEventListener("load", function() {
         setTimeout(hideURLbar, 0);
@@ -150,7 +159,7 @@ if(isset($_POST['confirm']))
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Rekomendasi</a>
+                        <a class="nav-link" href="rekomendasi.php">Rekomendasi</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"

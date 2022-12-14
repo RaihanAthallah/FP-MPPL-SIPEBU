@@ -9,7 +9,7 @@ include '../dbconnect.php';
 $orderids = $_GET['orderid'];
 $liatcust = mysqli_query($conn,"select * from login l, cart c where orderid='$orderids' and l.userid=c.userid");
 $checkdb = mysqli_fetch_array($liatcust);
-date_default_timezone_set("Asia/Bangkok");
+date_default_timezone_set("Asia/Jakarta");
 
 if(isset($_POST['kirim']))
 	{
@@ -64,7 +64,7 @@ if(isset($_POST['selesai']))
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>SIPEBU - Pesanan <?php echo $checkdb['namalengkap']; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="..\images\logo.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/themify-icons.css">

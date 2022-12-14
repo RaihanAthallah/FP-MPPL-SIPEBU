@@ -11,13 +11,17 @@
 	$itungcust2 = mysqli_fetch_assoc($itungcust);
 	$itungcust3 = $itungcust2['jumlahcust'];
 	
-	$itungorder = mysqli_query($conn,"select count(idcart) as jumlahorder from cart where status not like 'Selesai' and status not like 'Canceled'");
+	$itungorder = mysqli_query($conn,"SELECT count(idcart) as jumlahorder from cart c, login l where c.userid=l.userid and status!='Cart' and status!='Selesai' order by idcart ASC");
 	$itungorder2 = mysqli_fetch_assoc($itungorder);
 	$itungorder3 = $itungorder2['jumlahorder'];
 	
 	$itungtrans = mysqli_query($conn,"select count(orderid) as jumlahtrans from konfirmasi");
 	$itungtrans2 = mysqli_fetch_assoc($itungtrans);
 	$itungtrans3 = $itungtrans2['jumlahtrans'];
+
+	$itungtotal = mysqli_query($conn,"SELECT SUM(d.qty*p.harga) AS count FROM detailorder d, produk p,cart where d.orderid=cart.orderid and p.idproduk=d.idproduk and cart.status='selesai' order by d.idproduk ASC;");
+	$itungtotal2 = mysqli_fetch_assoc($itungtotal);
+	$itungtotal3 = $itungtotal2['count'];
 	
     $dataPoints = array();
     //QUERY GRAFIK PENJUALAN
@@ -38,7 +42,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Admin Panel - SIPEBU</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="..\images\logo.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/themify-icons.css">
@@ -196,6 +200,19 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
+                                <div class="single-report">
+                                    <div class="s-report-inner pr--20 pt--30 mb-3">
+                                        <div class="icon"><i class="fa fa-book"></i></div>
+                                        <div class="s-report-title d-flex justify-content-between">
+                                            <h4 class="header-title mb-0">Total Pendapatan</h4>
+                                        </div>
+                                        <div class="d-flex justify-content-between pb-2">
+                                            <h1>Rp.<?php echo $itungtotal3 ?></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-2">
                                 <div class="single-report mb-xs-30">
                                     <div class="s-report-inner pr--20 pt--30 mb-3">
                                         <div class="icon"><i class="fa fa-link"></i></div>

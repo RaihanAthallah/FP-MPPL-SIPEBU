@@ -48,6 +48,7 @@ if(!isset($_SESSION['log'])){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Java butik muslim fashion" />
+    <link rel="shortcut icon" type="image/png" href=".\images\logo.png">
     <script type="application/x-javascript">
     addEventListener("load", function() {
         setTimeout(hideURLbar, 0);
@@ -103,7 +104,7 @@ if(!isset($_SESSION['log'])){
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Rekomendasi</a>
+                        <a class="nav-link" href="rekomendasi.php">Rekomendasi</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"

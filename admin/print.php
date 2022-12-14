@@ -80,25 +80,28 @@ if($_GET['data']='staff'){
     $no = 1;
 
         $brgs=mysqli_query($conn,"SELECT * from cart c, login l where c.userid=l.userid and status='Selesai' order by idcart ASC");
+        $total_penjualan= mysqli_query($conn, "SELECT SUM(d.qty*p.harga) AS count FROM detailorder d, produk p,cart where d.orderid=cart.orderid and p.idproduk=d.idproduk and cart.status='selesai' order by d.idproduk ASC;");
         $no=1;
         while($p=mysqli_fetch_array($brgs)){
-        $orderids = $p['orderid'];
-        
-        $pdf->Cell(20,6,$no++,1,0);
-        $pdf->Cell(30,6,$p['orderid'],1,0);
-        $pdf->Cell(50,6,$p['namalengkap'],1,0);
-        $pdf->Cell(50,6,$p['tglorder'],1,0);
+            $orderids = $p['orderid'];
+            
+            $pdf->Cell(20,6,$no++,1,0);
+            $pdf->Cell(30,6,$p['orderid'],1,0);
+            $pdf->Cell(50,6,$p['namalengkap'],1,0);
+            $pdf->Cell(50,6,$p['tglorder'],1,0);
 
-        $result1 = mysqli_query($conn,"SELECT SUM(d.qty*p.harga) AS count FROM detailorder d, produk p where orderid='$orderids' and p.idproduk=d.idproduk order by d.idproduk ASC");
-        $cekrow = mysqli_num_rows($result1);
-        $row1 = mysqli_fetch_assoc($result1);
-        $count = $row1['count'];
-        if($cekrow > 0){
-        $pdf->Cell(35,6,$count,1,1);
-        } else {
-            echo 'No data';
+            $result1 = mysqli_query($conn,"SELECT SUM(d.qty*p.harga) AS count FROM detailorder d, produk p where orderid='$orderids' and p.idproduk=d.idproduk order by d.idproduk ASC");
+            
+            $cekrow = mysqli_num_rows($result1);
+            $row1 = mysqli_fetch_assoc($result1);
+            $count = $row1['count'];
+            if($cekrow > 0){
+            $pdf->Cell(35,6,$count,1,1);
+            } else {
+                echo 'No data';
+            }
         }
-    }
+        $pdf->Cell(190,7,"TOTAL PENJUALAN = '$total_penjualan'",0,1,'C');
     
     $pdf->Output();
     }

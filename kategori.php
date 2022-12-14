@@ -13,6 +13,7 @@ $idk = $_GET['idkategori'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Java Butik Muslim Fashion" />
+    <link rel="shortcut icon" type="image/png" href=".\images\logo.png">
     <script type="application/x-javascript">
     addEventListener("load", function() {
         setTimeout(hideURLbar, 0);
@@ -69,7 +70,7 @@ $idk = $_GET['idkategori'];
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Rekomendasi</a>
+                        <a class="nav-link" href="rekomendasi.php">Rekomendasi</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
@@ -144,19 +145,19 @@ $idk = $_GET['idkategori'];
                     </ul>
                 </div>
             </div>
-            <div class="col-md-8 products-right">
-                <div class="agile_top_brands_grids d-flex">
+            <div class="container">
+                <div class="row agile_top_brands_grids">
 
 
                     <?php 
-					$brgs=mysqli_query($conn,"SELECT * from produk where idkategori='$idk' order by idproduk ASC");
+					$brgs=mysqli_query($conn,"SELECT * from produk where stok > 0 and idkategori='$idk' order by idproduk ASC");
 					$x = mysqli_num_rows($brgs);
 					
 					if($x>0){
 					while($p=mysqli_fetch_array($brgs)){
 					?>
 
-                    <div class="col-md-4 top_brand_left">
+                    <div class="col-md-3 top_brand_left my-2 rounded">
                         <div class="hover14 column mx-2">
                             <div class="agile_top_brand_left_grid">
 

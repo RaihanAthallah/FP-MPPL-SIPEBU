@@ -1,11 +1,17 @@
 <?php 
-// isi nama host, username mysql, dan password mysql anda
-$conn = mysqli_connect("localhost","root","","sipebu");
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "sipebu";
 
-if(!$conn){
-	echo "gagal konek database menn";
-} else {
-	
-};
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $database);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+//echo "Connected successfully";
 
 ?>

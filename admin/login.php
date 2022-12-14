@@ -8,7 +8,7 @@ if(!isset($_SESSION['log'])){
 };
 
 include '../dbconnect.php';
-date_default_timezone_set("Asia/Bangkok");
+date_default_timezone_set("Asia/Jakarta");
 $timenow = date("j-F-Y-h:i:s A");
 
 	if(isset($_POST['login']))
@@ -62,6 +62,7 @@ $timenow = date("j-F-Y-h:i:s A");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Java Butik Muslim" />
+    <link rel="shortcut icon" type="image/png" href="..\images\logo.png">
     <script type="application/x-javascript">
     addEventListener("load", function() {
         setTimeout(hideURLbar, 0);
